@@ -1,4 +1,4 @@
 Pisano koristeci Python 3.7.3
 Potrebna biblioteka:
     py -m pip install pythonnet==2.5.2
-Projekat i dalje nije završen
+Projekat i dalje nije završen (greške i nedostaci: korisnik je pobedio ako je prebacio diskove na drugi stub, nije omogućeno da izađe poruka ako korisnik pokuša da unese broj diskova veći od 8, treba da se doda deo gde će da se broje greške i stavi minimalan broj poteza)
