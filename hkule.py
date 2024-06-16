@@ -177,8 +177,8 @@ class GameWindow(System.Windows.Forms.Form):
                 self.draw_game()  # ponovo crtamo igru
                 self.pictureBox.Refresh()  # refresh je obavezan da bi se stanje promenilo
 
-                # proveravamo da li je bilo koji stub sem prvog popunjen do vrha (svi diskovi na njemu), ako jeste kraj igre, pobeda
-                if len(disk_placement[1]) == num_of_disks or len(disk_placement[2]) == num_of_disks:
+                # proveravamo da li je treći stub popunjen do vrha(svi diskovi na njemu), ako jeste kraj igre, pobeda
+                if len(disk_placement[2]) == num_of_disks:
                     ctypes.windll.user32.MessageBoxW(0, "Pobedili ste, cestitamo!", "Pobeda", 0)
                     self.pillarButtons[0].Enabled = False
                     self.pillarButtons[1].Enabled = False
