@@ -111,6 +111,14 @@ class GameWindow(System.Windows.Forms.Form):
         self.btnReloadGame.Click += self.btnReloadGame_Click
         self.Controls.Add(self.btnReloadGame)
 
+        #dugme koje resava za dato n
+        self.btnSolveGame = System.Windows.Forms.Button()
+        self.btnSolveGame.Location = System.Drawing.Point(230, 20)
+        self.btnSolveGame.Size = System.Drawing.Size(51, 51)
+        self.btnSolveGame.Text = "Solve"
+        self.btnSolveGame.Click += self.btnSolveGame_Click
+        self.Controls.Add(self.btnSolveGame)
+
         # label za zivote
         self.lblLives = System.Windows.Forms.Label()
         self.lblLives.Location = System.Drawing.Point(600, 20)
@@ -199,7 +207,7 @@ class GameWindow(System.Windows.Forms.Form):
         elif num_of_disks > 8:
             ctypes.windll.user32.MessageBoxW(0, "Maksimum diskova je 8!", "Greska", 0)
             self.txtNumberOfDisks.Text = "8"
-            num_of_disks = 8
+            num_of_disks = int(self.txtNumberOfDisks.Text)
         
         reload_game(num_of_disks)
         self.draw_game()
@@ -226,6 +234,43 @@ class GameWindow(System.Windows.Forms.Form):
             self.take_disk(2)
         else:
             self.drop_disk(2)
+
+    def btnSolveGame_Click(self, sender, args):
+        self.pillarButtons[0].Enabled = False
+        self.pillarButtons[1].Enabled = False
+        self.pillarButtons[2].Enabled = False
+        self.btnReloadGame.Enabled = False
+        self.txtNumberOfDisks.Enabled = False
+        self.btnSolveGame.Enabled = False
+
+        global num_of_disks
+        num_of_disks = int(self.txtNumberOfDisks.Text)
+
+        reload_game(num_of_disks)
+        self.draw_game()
+        self.pictureBox.Refresh()
+
+        #resavanje problema
+        self.solve_hanoi(num_of_disks, 0, 2, 1)
+
+        self.pillarButtons[0].Enabled = True
+        self.pillarButtons[1].Enabled = True
+        self.pillarButtons[2].Enabled = True
+        self.btnReloadGame.Enabled = True
+        self.txtNumberOfDisks.Enabled = True
+        self.btnSolveGame.Enabled = True
+
+    def solve_hanoi(self, n, source, target, auxiliary):
+        if n > 0:
+            self.solve_hanoi(n - 1, source, auxiliary, target)
+
+            disk = disk_placement[source].pop()
+            disk_placement[target].append(disk)
+            self.draw_game()
+            self.pictureBox.Refresh()
+            System.Threading.Thread.Sleep(1000)
+
+            self.solve_hanoi(n - 1, auxiliary, target, source)
 
     # crtanje diskova
     def draw_disks(self, graph):
